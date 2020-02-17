@@ -1,0 +1,20 @@
+name: Build project
+on:
+    push:
+
+jobs:
+    build:
+        name: Build executable
+        runs-on: windows-latest
+        steps:
+        - uses: actions/checkout@master
+        - name: Install autohotkey
+          run: choco install autohotkey
+        - name: Build exe
+          run: "& 'C:\\Program Files\\Autohotkey\\Compiler\\ahk2exe.exe' /in DigraphMgr.ahk"
+        - name: Publish
+          run: mkdir out; move DigraphMgr.exe out
+        - uses: actions/upload-artifact@v1
+          with:
+            name: DigraphMgr.exe
+            path: out
